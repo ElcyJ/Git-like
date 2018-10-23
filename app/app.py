@@ -1,36 +1,67 @@
-from services import *
+from services.services import *
 
 
 def main():
-    files = []
 
     menu = '*** GIT ***' \
-           '1 - Criar Repositório\n' \
-           '2 - Adicionar novo arquivo em seu repositório\n' \
-           '3 - Listar arquivos do repositório\n' \
-           '4 - Alterar ou excluir arquivo\n' \
-           '5 - Add: adicionar a Stage Zone as alterações de um arquivo\n' \
-           '6 - Add: adicionar a Stage Zone as todas as alterações\n' \
-           '7 - Reset: desfazer última alteração da Stage Zone\n' \
-           '8 - Commit: confirmar alterações\n' \
-           '9 - Status: listar alterações pendentes\n' \
-           '10 - Log: listar commits\n' \
-           '11 - Remote add: associar repositórios\n' \
-           '12 - Push: enviar commits para o repositório remoto\n' \
-           '13 - Pull: receber commits para o repositório local\n' \
-           '14 - Remote remove: desvincular repositório remoto\n'
+           'Criar Repositório\n' \
+           'Adicionar novo arquivo em seu repositório\n' \
+           'Listar arquivos do repositório\n' \
+           'Alterar ou excluir arquivo\n' \
+           'Add: adicionar a Stage Zone as alterações de um arquivo\n' \
+           'Add: adicionar a Stage Zone as todas as alterações\n' \
+           'Reset: desfazer última alteração da Stage Zone\n' \
+           'Commit: confirmar alterações\n' \
+           'Status: listar alterações pendentes\n' \
+           'Log: listar commits\n' \
+           'Remote add: associar repositórios\n' \
+           'Push: enviar commits para o repositório remoto\n' \
+           'Pull: receber commits para o repositório local\n' \
+           'Remote remove: desvincular repositório remoto\n'
 
     while True:
-        opcao = input(menu)
+        opc = input(menu)
 
-        if opcao == 'git init':
+        if opc == 'git init':
             repo = Repo()
+            while True:
+                opc = input('>>')
 
-        if opcao == 2:
-            name = input()
-            content = input()
-            file = File(name, content)
-            files.append({file: 'new_file'})
+                if len(opc) >= 8 and opc[:8] == 'copy con':
+                    name = opc.split()[2]
+                    content = input('con: ')
+                    repo.create_file(name, content)
+
+                elif len(opc) >= 7 and opc[:7] == 'git add':
+                    name = opc.split()[2]
+                    repo.add(name)
+
+                elif len(opc) >= 4 and opc[:4] == 'edit':
+                    name = opc.split()[1]
+                    content = input()
+                    repo.edit(name, content)
+
+                elif opc == 'remove':
+                    name = opc.split()[1]
+                    repo.remove_file(name)
+
+                elif opc == 'dir':
+                    for file in repo.files:
+                        if file.status is None:
+                            print(file.name)
+                        else:
+                            if file.status.staged:
+                                print('Stagging Area')
+                                print(file.name, ':', file.status.type)
+                            if file.status.staged is False:
+                                print('Unstagging Area')
+                                print(file.name, ':', file.status.type)
+
+                else:
+                    print('kmdkkfmkfm')
+
+        else:
+            print('Comece com o "git init"')
 
 
 if __name__ == '__main__':
