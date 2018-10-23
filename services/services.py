@@ -1,3 +1,4 @@
+from services.attributes import StagingArea
 
 class Repo:
     def __init__(self):
@@ -70,10 +71,7 @@ class Stage:
         self.staged = False
 
 
-class StagingArea:
-    def __init__(self):
-        self.stageds = []
-        self.unstageds = []
+
 
 
 

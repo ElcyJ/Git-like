@@ -1,5 +1,5 @@
 from services.services import *
-
+from services.attributes import *
 
 def main():
 
@@ -39,14 +39,11 @@ def main():
                     for file in repo.files:
                         if file.name == name:
                             packed = {file.name, file.status.type}
-                            if len(staging.stageds) > 0:
-                                for sta in staging.stageds:
-                                    if sta == packed:
-                                        break
-                                    else:
-                                        staging.stageds.append(packed)
+                            if file.status.staged is False:
+                                staging.rm_unstage_area(packed)
+                                staging.add_stage_area(packed)
                             else:
-                                staging.stageds.append(packed)
+                                staging.add_stage_area(packed)
 
                 elif len(opc) >= 4 and opc[:4] == 'edit':
                     name = opc.split()[1]
@@ -55,14 +52,7 @@ def main():
                     for file in repo.files:
                         if file.name == name:
                             packed = {file.name, file.status.type}
-                            if len(staging.unstageds) > 0:
-                                for sta in staging.unstageds:
-                                    if sta == packed:
-                                        break
-                                    else:
-                                        staging.unstageds.append(packed)
-                            else:
-                                staging.unstageds.append(packed)
+                            staging.add_unstage_area(packed)
 
                 elif opc == 'remove':
                     name = opc.split()[1]
@@ -81,7 +71,7 @@ def main():
                                 print(sta)
 
                 else:
-                    print('kmdkkfmkfm')
+                    print('error')
 
         else:
             print('Comece com o "git init"')
