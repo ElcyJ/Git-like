@@ -27,3 +27,13 @@ class StagingArea:
         for sta in self.unstageds:
             if sta == packed:
                 self.unstageds.remove(packed)
+
+
+class Commits:
+    def __init__(self):
+        self.commiteds = []
+
+    def do_commit(self, stageds):
+        self.commiteds.append(stageds)
+
+

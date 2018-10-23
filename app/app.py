@@ -1,6 +1,7 @@
 from services.services import *
 from services.attributes import *
 
+
 def main():
 
     menu = '*** GIT ***' \
@@ -41,7 +42,7 @@ def main():
                             packed = {file.name, file.status.type}
                             if file.status.staged is False:
                                 staging.rm_unstage_area(packed)
-                                staging.add_stage_area(packed)
+                                # staging.add_stage_area(packed)
                             else:
                                 staging.add_stage_area(packed)
 
@@ -58,9 +59,15 @@ def main():
                     name = opc.split()[1]
                     repo.remove_file(name)
 
+                elif opc == 'git commit':
+                    commit = Commits()
+                    commit.do_commit(staging.stageds)
+                    print(commit.commiteds)
+
                 elif opc == 'dir':
                     for file in repo.files:
                         if file.status is None:
+                            print('Untracked Files')
                             print(file.name)
                         else:
                             for sta in staging.stageds:
