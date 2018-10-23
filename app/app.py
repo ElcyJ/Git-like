@@ -24,6 +24,7 @@ def main():
 
         if opc == 'git init':
             repo = Repo()
+            staging = StagingArea()
             while True:
                 opc = input('>>')
 
@@ -35,11 +36,33 @@ def main():
                 elif len(opc) >= 7 and opc[:7] == 'git add':
                     name = opc.split()[2]
                     repo.add(name)
+                    for file in repo.files:
+                        if file.name == name:
+                            packed = {file.name, file.status.type}
+                            if len(staging.stageds) > 0:
+                                for sta in staging.stageds:
+                                    if sta == packed:
+                                        break
+                                    else:
+                                        staging.stageds.append(packed)
+                            else:
+                                staging.stageds.append(packed)
 
                 elif len(opc) >= 4 and opc[:4] == 'edit':
                     name = opc.split()[1]
                     content = input()
                     repo.edit(name, content)
+                    for file in repo.files:
+                        if file.name == name:
+                            packed = {file.name, file.status.type}
+                            if len(staging.unstageds) > 0:
+                                for sta in staging.unstageds:
+                                    if sta == packed:
+                                        break
+                                    else:
+                                        staging.unstageds.append(packed)
+                            else:
+                                staging.unstageds.append(packed)
 
                 elif opc == 'remove':
                     name = opc.split()[1]
@@ -50,12 +73,12 @@ def main():
                         if file.status is None:
                             print(file.name)
                         else:
-                            if file.status.staged:
+                            for sta in staging.stageds:
                                 print('Stagging Area')
-                                print(file.name, ':', file.status.type)
-                            if file.status.staged is False:
+                                print(sta)
+                            for sta in staging.unstageds:
                                 print('Unstagging Area')
-                                print(file.name, ':', file.status.type)
+                                print(sta)
 
                 else:
                     print('kmdkkfmkfm')

@@ -1,4 +1,3 @@
-from copy import copy
 
 class Repo:
     def __init__(self):
@@ -24,6 +23,9 @@ class Repo:
             if file.name == name:
                 file.remove_file()
 
+    def insert_file(self, file):
+        self.files.append(file)
+
 
 class File:
     def __init__(self, name, content):
@@ -42,11 +44,10 @@ class File:
     def alter_file(self, new_content):
         if self.tracked:
             if self.status.staged:
-                file2 = copy(self)
-                stage = Stage('modified')
-                stage.become_unstaged()
-                file2.status = stage
-                file2.content = new_content
+                self.content = new_content
+                self.status.become_unstaged()
+                self.status.type = 'modified'
+
             else:
                 self.content = new_content
         else:
@@ -59,7 +60,6 @@ class File:
 
 class Stage:
     def __init__(self, type):
-        self.files = []
         self.staged = False
         self.type = type
 
@@ -68,5 +68,12 @@ class Stage:
 
     def become_unstaged(self):
         self.staged = False
+
+
+class StagingArea:
+    def __init__(self):
+        self.stageds = []
+        self.unstageds = []
+
 
 
