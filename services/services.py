@@ -1,4 +1,5 @@
-from services.attributes import StagingArea
+from services.attributes import *
+
 
 class Repo:
     def __init__(self):
@@ -26,6 +27,10 @@ class Repo:
 
     def insert_file(self, file):
         self.files.append(file)
+
+   # def do_commit(self, packed):
+    #    commit = Commits()
+     #   commit.do_commit()
 
 
 class File:

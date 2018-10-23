@@ -28,6 +28,10 @@ class StagingArea:
             if sta == packed:
                 self.unstageds.remove(packed)
 
+    def rm_stage_area(self,packed):
+        for sta in self.stageds:
+            if sta == packed:
+                self.stageds.remove(packed)
 
 class Commits:
     def __init__(self):

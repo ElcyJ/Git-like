@@ -42,7 +42,7 @@ def main():
                             packed = {file.name, file.status.type}
                             if file.status.staged is False:
                                 staging.rm_unstage_area(packed)
-                                # staging.add_stage_area(packed)
+                                staging.add_stage_area(packed)
                             else:
                                 staging.add_stage_area(packed)
 
